@@ -1,0 +1,155 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+  <div class="card-body" *ngIf="user">
+    <form novalidate (ngSubmit)="saveUser()" #editForm="ngForm">
+
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>First name</mat-label>
+          <input matInput class="form-control" id="firstNameId" type="text" placeholder="First name (required)" required
+            [(ngModel)]=user.results.userData.firstName name="firstName" #firstNameVar="ngModel" [ngClass]="{'is-invalid': (firstNameVar.touched || 
+                                                firstNameVar.dirty ||
+                                                user.results.userData.id !== '0') && 
+                                                !firstNameVar.valid }" />
+
+          <mat-error *ngIf="firstNameVar.errors?.required">
+            First name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      </div>
+
+      <div class=" row">
+        <div class="col-md-6 offset-md-2">
+           <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Last name</mat-label>
+          <input matInput class="form-control" id="lastNameId" type="text" placeholder="Last name (required)" required
+            [(ngModel)]=user.results.userData.lastName name="lastName" #lastNameVar="ngModel" [ngClass]="{'is-invalid': (lastNameVar.touched || 
+                                               lastNameVar.dirty ||
+                                              user.results.userData.id !== '0') && 
+                                              !lastNameVar.valid }" />
+
+          <mat-error *ngIf="lastNameVar.errors?.required">
+            Last name is required.
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+      </div>
+
+      <div class=" row">
+       <div class="col-md-6 offset-md-2">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>User name</mat-label>
+          <input matInput class="form-control" id="userNameId" type="text" [disabled]='isEditMode'
+            placeholder="User name (required)" required isUserExist [(ngModel)]=user.results.userName name="uerName"
+            #userNameVar="ngModel" [ngClass]="{'is-invalid': (userNameVar.touched || 
+                                              userNameVar.dirty ||
+                                              user.results.userData.id !== '0') && 
+                                              !userNameVar.valid }" />
+
+          <mat-error *ngIf="userNameVar.errors?.required">
+            User name is required.
+          </mat-error>
+          <mat-error *ngIf="userNameVar.errors?.isUserExist">
+            User name already exist.
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+      </div>
+
+      <div class=" row">
+        <div class="col-md-6 offset-md-2">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Session timeout</mat-label>
+          <input matInput class="form-control" id="sessionTimeoutId" type="number"
+            placeholder="Session timeout (required)" required [(ngModel)]=user.results.userData.sessionTimeout
+            name="sessionTimeout" #sessionTimeoutVar="ngModel" [ngClass]="{'is-invalid': (sessionTimeoutVar.touched || 
+                                                sessionTimeoutVar.dirty ||
+                                                user.results.userData.id !== '0') && 
+                                                !sessionTimeoutVar.valid }" />
+
+          <mat-error *ngIf="sessionTimeoutVar.errors?.required">
+            Session timeout is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+      <div class=" row">
+        <div class="col-md-6 offset-md-2">
+         <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Created date</mat-label>
+          <input matInput class="form-control" id="createdDateId" type="date" placeholder="Created date (required)"
+            required [(ngModel)]=user.results.userData.createdDate name="createdDate" #createdDateVar="ngModel"
+            [ngClass]="{'is-invalid': (createdDateVar.touched || 
+                                              createdDateVar.dirty ||
+                                              user.results.userData.id !== '0') && 
+                                              !createdDateVar.valid }" />
+          <mat-error *ngIf="createdDateVar.errors?.required">
+            "Created date is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+         <mat-checkbox class="margin" id="viewSubscriptionsId" [(ngModel)]=viewSubscriptions name="viewSubscriptions">
+            View subscriptions</mat-checkbox>
+          <mat-checkbox class="margin" id="viewMoviesId" [(ngModel)]=viewMovies name="viewMovies">View movies
+          </mat-checkbox>
+       </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+         <mat-checkbox class="margin" id="createSubscriptionsId" [(ngModel)]=createSubscriptions
+            name="createSubscriptions">Create subscriptions</mat-checkbox>
+           <mat-checkbox class="margin" id="createMoviesId" [(ngModel)]=createMovies name="createMovies">Create movies
+          </mat-checkbox>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+          <mat-checkbox class="margin" id="updateSubscriptionsId" [(ngModel)]=updateSubscriptions
+            name="updateSubscriptions">Update subscriptions</mat-checkbox>
+          <mat-checkbox class="margin" id="updateMoviesId" [(ngModel)]=updateMovies name="updateMovies">Update movies
+          </mat-checkbox>
+        </div>
+      </div>
+
+      <div class="row">
+       <div class="col-md-6 offset-md-2">
+          <mat-checkbox class="margin" id="deleteSubscriptionsId" [(ngModel)]=deleteSubscriptions
+            name="deleteSubscriptions">Delete subscriptions</mat-checkbox>
+         <mat-checkbox class="margin" id="deleteMoviesId" [(ngModel)]=deleteMovies name="deleteMovies">Delete movies
+          </mat-checkbox>
+        </div>
+      </div>
+
+
+      <div class="row mb-2">
+        <div class="col-md-6 offset-md-2">
+          <button mat-button color="primary" style="width:80px" type="submit"
+          [title]="editForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
+          [disabled]='!editForm.form.valid'>
+          <mat-icon>save</mat-icon>
+          </button>
+          <button mat-button color="primary" style="width:80px" type="button" title="Cancel your edits"
+            [routerLink]="['/users']">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}
+</div>

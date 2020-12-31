@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+
+  <div class="card-body">
+    <form novalidate (ngSubmit)="logIn()" [formGroup]="logInForm">
+
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>User Name</mat-label>
+            <input matInput formControlName="userName" #userNameRef />
+            <mat-error *ngIf="displayMessage.userName">
+              {{displayMessage.userName}}
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+      </div>
+     
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput formControlName="password" />
+            <mat-error *ngIf="displayMessage.password">
+              {{displayMessage.password}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    
+
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+          <button mat-button color="primary" type="submit" style="width:80px" [disabled]="!logInForm.valid">
+            <mat-icon>power_settings_new</mat-icon>
+            Log In
+          </button>
+          <button mat-button color="primary"  style="width:80px" [routerLink]="['/welcome']">
+            <mat-icon>cancel</mat-icon>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}
+  </div>
+</div>

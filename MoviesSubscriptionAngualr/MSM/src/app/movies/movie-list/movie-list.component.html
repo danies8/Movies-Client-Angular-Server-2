@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            {{pageTitle}}
+        </div>
+
+        <div class="card-body">
+            <div class='row'>
+                <pm-criteria class='col-10' (valueChange)='onValueChange($event)'>
+                </pm-criteria>
+                <button mat-button class='col-2' [routerLink]="['/movies', 0, 'edit']" [disabled]='!hasPermissionForCreateMovies'>
+                    Add Movie
+                </button>
+            </div>
+            <mat-grid-list cols="3" rowHeight="1:1.5">
+
+                <mat-grid-tile *ngFor="let movie of filteredMovies?.moviesDataArr">
+                    <mat-card class="margin">
+
+                        <mat-card-header>
+                            <mat-card-title>{{movie.movieData.name}}<br /> {{movie.movieData.premiered.split("-")[0]}}
+                            </mat-card-title>
+                        </mat-card-header>
+                        <img mat-card-image src="{{movie.movieData.image}}" alt="{{movie.movieData.name}}" height="200"
+                            width="200" />
+                        <mat-card-content>
+                            <p>{{movie.movieData.genres.join(",")}}</p>
+                        </mat-card-content>
+                        <mat-accordion>
+                            <mat-expansion-panel hideToggle >
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Subscriptions Watched
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <mat-card-content *ngFor="let subscribedData of movie.subscribedDataArray">
+                                    <button mat-button title="Go to this member"
+                                        (click)="goToMember(subscribedData.memberData.name)">{{subscribedData.memberData.name}}</button>
+                                    - {{subscribedData.date.split("-")[0]}}
+                                </mat-card-content>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                        <mat-card-actions>
+                            <button mat-button [routerLink]="[movie.movieData._id, 'edit']" [disabled]='!hasPermissionForEditMovies'>Edit</button>
+                            <button mat-button title="Delete this movie"
+                                (click)="deleteMovie(movie.movieData._id, movie.movieData.name)" [disabled]='!hasPermissionForDeleteMovies'>Delete</button>
+                        </mat-card-actions>
+
+                  
+                  
+                  
+                  
+                    </mat-card>
+
+                </mat-grid-tile>
+
+            </mat-grid-list>
+
+        </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        Error: {{ errorMessage }}
+    </div>

@@ -1,0 +1,1 @@
+{"permissions":[{"id":1,"permissions":["View Subscriptions","Create Subscriptions","Delete Subscriptions","Update Subscriptions","View Movies","Create Movies","Update Movies","Delete Movies"],"userId":1,"userName":"admin@yahoo.com"},{"userId":"2","userName":"test@yahoo.com","permissions":[],"id":"2"}]}

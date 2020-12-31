@@ -1,0 +1,65 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+  <div class="card-body" *ngIf="member">
+    <form novalidate (ngSubmit)="saveMember()" [formGroup]="editForm">
+
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" #nameRef />
+            <mat-error *ngIf="displayMessage.name">
+              {{displayMessage.name}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+            <mat-error *ngIf="displayMessage.email">
+              {{displayMessage.email}}
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city" />
+            <mat-error *ngIf="displayMessage.city">
+              {{displayMessage.city}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 offset-md-2">
+          <button mat-button color="primary" style="width:80px" type="submit"
+            [title]="editForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
+            [disabled]='!editForm.valid'>
+            <mat-icon>save</mat-icon>
+            Save
+          </button>
+          <button mat-button color="primary" style="width:80px" type="button" title="Cancel your edits"
+            [routerLink]="['/members']">
+            <mat-icon>cancel</mat-icon>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}
+</div>

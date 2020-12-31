@@ -1,0 +1,103 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            {{pageTitle}}
+        </div>
+
+        <div class="card-body">
+            <div class='row'>
+                <pm-criteria class='col-10' (valueChange)='onValueChange($event)'>
+                </pm-criteria>
+                <button mat-button color="primary" [routerLink]="['/members', 0, 'edit']" class='col-2'
+                [disabled]='!hasPermissionForCreateSubscriptions'>
+                    Add Member
+                </button>
+            </div>
+            <mat-grid-list cols="3" rowHeight="1:2">
+
+                <mat-grid-tile *ngFor="let member of filteredMembers?.membersDataArr">
+                    <mat-card class="margin" (mouseover)="saveMemberId(member.memberData._id)">
+                        <mat-card-header>
+                            <mat-card-title>{{member.memberData.name}}</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content >
+                             Email:{{member.memberData.email}} <br />
+                            City:{{member.memberData.city}} <br />
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <button mat-button [routerLink]="[member.memberData._id, 'edit']"  [disabled]='!hasPermissionForEditSubscriptions'>Edit</button>
+                            <button mat-button title="Delete this member"
+                                (click)="deleteMember(member.memberData._id, member.memberData.name)"  [disabled]='!hasPermissionForDeleteSubscriptions'>Delete</button>
+                        </mat-card-actions>
+
+                        <mat-accordion>
+                            <mat-expansion-panel hideToggle (click)="onSubscritions()">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Movie Watched
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <mat-card-content *ngFor="let moviesData of member.moviesData">
+                                    <button mat-button title="Go to this movie"
+                                        (click)="goToMovie(moviesData.name)">{{moviesData.name}}</button>
+                                    - {{moviesData.date.split("-")[0]}}
+                                </mat-card-content>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                        <mat-accordion>
+                            <mat-expansion-panel hideToggle (click)="onSubscritions()">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Subscribe to new movie
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <form novalidate (ngSubmit)="subscirbeToNewMovie(subscribeForm)" #subscribeForm="ngForm"
+                                    autocomplete="off">
+                                    <mat-form-field appearance="fill">
+                                        <input id="memberId" type="hidden" [(ngModel)]=member.memberData._id name="memberId">
+                                        <mat-label for="selectedMovieId">Select movie</mat-label>
+                                        <mat-select id="selectedMovieId" placeholder="Movie (required)" required ngModel
+                                            name="selectedMovie" #selectedMovieVar="ngModel"
+                                            [ngClass]="{'is-invalid': (selectedMovieVar.touched || selectedMovieVar.dirty) && !selectedMovieVar.valid }">
+                                            <mat-option *ngFor="let movieName of moviesNames?.moviesNames"
+                                                [value]="movieName">
+                                                {{movieName}}
+                                            </mat-option>
+                                            <span class="invalid-feedback">
+                                                <span *ngIf="selectedMovieVar.errors?.required">
+                                                    Movie is required.
+                                                </span>
+                                            </span>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-label for="dateId">Select date</mat-label>
+                                        <input matInput id="dateId" type="date" placeholder="Date (required)" required
+                                            ngModel name="date" #dateVar="ngModel"
+                                            [ngClass]="{'is-invalid': (dateVar.touched || dateVar.dirty) && !dateVar.valid }" />
+                                        <span class="invalid-feedback">
+                                            <span *ngIf="dateVar.errors?.required">
+                                                Date is required.
+                                            </span>
+                                        </span>
+                                    </mat-form-field>
+                                    <button mat-button type="submit" [disabled]="!subscribeForm.valid">
+                                        Subscribe
+                                    </button>
+                                </form>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                    </mat-card>
+                </mat-grid-tile>
+
+            </mat-grid-list>
+
+        </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        Error: {{ errorMessage }}
+    </div>
